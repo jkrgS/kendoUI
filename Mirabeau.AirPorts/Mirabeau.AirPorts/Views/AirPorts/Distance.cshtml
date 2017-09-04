@@ -1,0 +1,33 @@
+﻿
+@model Mirabeau.AirPorts.Models.DistanceModel
+@{
+	ViewBag.Title = "Distance";
+}
+
+
+<div class="page-header" align="center">
+	<h2>
+		Airports distances
+	</h2>
+</div>
+
+<script>
+	$(document).ready(function () {
+			$("#AirportsDistancesButton").kendoButton();
+		});
+</script>
+
+<style>
+	.k-buttonDist {
+		height: 35px;
+		width: 80px;
+	}
+</style>
+
+
+
+From: @Html.TextBox("distanceFrom", Model.distanceFrom, new { @readonly="readonly" })
+To: @Html.TextBox("distanceTo", Model.distanceTo, new { @readonly = "readonly" })
+Distance: @Html.TextBox("To", Model.distance, new { @readonly = "readonly" })
+
+<input id="AirportsDistancesButton" class="k-buttonDist" value="Go Back" onclick="location.href='@Url.Action("List", "Airports")'" />

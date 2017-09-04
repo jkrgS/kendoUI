@@ -1,0 +1,136 @@
+﻿
+@using Kendo.Mvc.UI; 
+@*@model PagedList.IPagedList<Mirabeau.AirPorts.Models.AirPortsModel>*@
+@model  IEnumerable<Mirabeau.AirPorts.Models.AirPortsModel>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+	ViewBag.Title = "List";
+}
+
+<div class="page-header" align="center">
+	<h2> 
+		Airports
+	</h2>
+</div>
+
+@*kendoUI*@
+<script>
+	$(document).ready(function () {
+	    $("#Airportsgrid").kendoGrid({
+	        height: 550,
+			sortable: true,
+			pageable: {
+			    refresh: true,
+			    pageSizes: true,
+			    buttonCount: 5   
+			}, 
+			groupable: true,
+			dataSource: { pageSize: 20 }
+		});
+	});
+
+	$(document).ready(function () {
+		$("#AirportsSortable").kendoSortable({
+			hint: function (element) {
+				return element.clone().addClass("hint");
+			},
+			placeholder: function (element) {
+				return element.clone().addClass("placeholder").text("drop here");
+			},
+			cursorOffset: {
+				top: -10,
+				left: -230
+			}
+		});
+	});
+
+
+	$(document).ready(function () {
+		$("#AirportsPrimaryButton").kendoButton();
+	});
+	
+</script>
+
+<style>
+	.k-button {
+		height: 35px;
+		width: 80px;
+	}
+
+	.k-primary {
+		height: 35px;
+		width: 80px;
+	}
+</style>
+
+
+
+
+
+@using (Html.BeginForm("List", "AirPorts", FormMethod.Get))
+{
+	<p>
+		Search with Iata: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+		<input id="AirportsPrimaryButton" class="k-primary" type="submit" value="Search" />
+		<input @*class="btn btn-info" type="button"*@ id="AirportsPrimaryButton" class="k-button"  value="Reset" onclick="location.href='@Url.Action("List", "Airports")'" />
+		
+	</p>
+
+	<p>
+		Distance calculation:
+		From
+		@Html.TextBox("distanceFrom", ViewBag.DistanceFrom as string)
+		To
+		@Html.TextBox("distanceTo", ViewBag.DistanceTo as string)
+
+		<input id="AirportsPrimaryButton" class="k-primary" type="submit" value="Calculate" onclick="location.href='@Url.Action("Index", "AirPorts")'" />
+	</p>
+}
+
+
+<table @*class="table table-bordered"*@ id="Airportsgrid">
+	<thead>
+		  <tr>
+			  <th> 
+				Iata
+			  </th>
+			  <th> 
+				Ion 
+			  </th>
+			  <th id="AirportsSortable"> 
+				   @*@Html.ActionLink("Iso", "List", new { sortOrder = ViewBag.CountryDescParm,
+						 currentFilter=ViewBag.CurrentFilter })*@
+				Iso
+			  </th>
+			  <th>Status</th>
+			  <th>Name</th>
+			  <th>Continent</th>
+			  <th>Type</th>
+			  <th>Iat</th>
+			  <th>Size</th>
+		  </tr>
+	</thead>
+	<tbody>
+		  @foreach (var item in Model)
+		  {
+			  <tr>
+				  <td>@item.iata</td>
+				  <td>@item.lon</td>
+				  <td>@item.iso</td>
+				  <td>@item.status</td>
+				  <td>@item.name</td>
+				  <td>@item.continent</td>
+				  <td>@item.type</td>
+				  <td>@item.lat</td>
+				  <td>@item.size</td>
+
+			  </tr>
+		  }
+	</tbody>
+</table>
+@*<br />*@
+@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("List",
+	new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, distanceFrom = ViewBag.DistanceFrom, distanceTo = ViewBag.DistanceTo }))
+	*@

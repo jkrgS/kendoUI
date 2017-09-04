@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mirabeau Exercise Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Styles.Render("~/Content/kendo/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/kendo")
+
+    <link rel="stylesheet" href="~/Content/kendo/kendo.common.min.css">
+    <link rel="stylesheet" href="~/Content/kendo/kendo.rtl.min.css">
+    <link rel="stylesheet" href="~/Content/kendo/kendo.default.min.css">
+    <link rel="stylesheet" href="~/Content/kendo/kendo.mobile.all.min.css">
+
+    <script src="~/Scripts/kendo/jquery-1.12.3.min.js"></script>
+    <script src="~/Scripts/kendo/angular.min.js"></script>
+    <script src="~/Scripts/kendo/jszip.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+
+</head>
+<body>
+        <div class="demo-section k-content">
+            
+            @*Refresh the page{redirect to default}*@
+            <script type="text/javascript">
+                window.setTimeout(function() {
+                        window.location.href = '@Url.Action("List", "Airports")';
+                    },
+                    300000);
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $("#toolbar").kendoToolBar()
+                });
+
+                $(document).ready(function () {
+                    $("#menu").kendoMenu();
+                });
+            </script>
+            <style>
+                #pic {
+                    max-width: 600px;
+                    margin: 30px auto;
+                    padding-top: 120px;
+                    background: url('../content/web/graphics/Mirabeau.png') no-repeat center 0;
+                }
+            </style>
+            
+            @*Navigation bar*@
+            <div id="pic">
+                @*<a> 
+                    Mirabeau Exercise
+                </a>*@
+                <ul id="menu">
+                    <li>
+                        @Html.ActionLink("Airports", "List", "AirPorts", new {Airports = "List"})
+                    </li>
+                </ul>
+            </div>
+
+            
+            
+            @*<ul class="nav navbar-nav navbar-left">
+                <li>
+                    @Html.ActionLink("Airports distances", "Index", "AirPorts", new { Airports = "Distances" },
+                        new { @class = "glyphicon glyphicon-info-sign" })
+                </li>
+            </ul>*@
+
+        </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mirabeau Exercise Application</p>
+        </footer>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>
